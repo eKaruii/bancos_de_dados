@@ -50,7 +50,7 @@ create table if not exists exames(
  -- FK
  tipo_exame_id_tipo_exames int(11) not null,
  resultado_exames_id_tipo_resultado_exames int(11) not null,
- constraint tipo_exame foreign key(tipo_exame_id_tipo_exames) references tipo_exame(id_tipo_exames),
+ constraint tipo_exame foreign key(tipo_exame_id_tipo_exames) references tipo_exames(id_tipo_exames),
  constraint resultado_exame foreign key(resultado_exames_id_tipo_resultado_exames) references resultados_exames(id_tipo_resultado_exames)
  );
  
@@ -76,7 +76,43 @@ telefone varchar(20) not null,
 cargo_id_cargo int(11) not null,
 empresa_id_empresa int(11) not null,
 constraint cargo_id foreign key(cargo_id_cargo) references cargo(id_cargo),
-constraint empresa_id foreign key(empresa_id_empresa) references empresa(id_empresa)
+constraint empresa_id2 foreign key(empresa_id_empresa) references empresa(id_empresa)
 );
 
+CREATE TABLE IF NOT EXISTS empresa_has_exame(
+exame_id_exame int(15),
+empresa_id_empresa INT(11),
+PRIMARY KEY(exame_id_exame,empresa_id_empresa), -- CHAVE PRIMÁRIA COMPOSTA
+-- CHAVES ESTRANGEIRAS
+CONSTRAINT exame_id FOREIGN KEY(exame_id_exame) REFERENCES exames(id_exames),
+CONSTRAINT empresa_id3 FOREIGN KEY(empresa_id_empresa) REFERENCES empresa(id_empresa)
+);
+
+CREATE TABLE IF NOT EXISTS funcionario_has_exame(
+exame_id_exame int(11),
+funcionario_id_funcionario INT(11),
+PRIMARY KEY(exame_id_exame,funcionario_id_funcionario), -- CHAVE PRIMÁRIA COMPOSTA
+-- CHAVES ESTRANGEIRAS
+CONSTRAINT exame_id2 FOREIGN KEY(exame_id_exame) REFERENCES exames(id_exames),
+CONSTRAINT funcionario_id FOREIGN KEY(funcionario_id_funcionario) REFERENCES funcionario(id_funcionario)
+);
+
+CREATE TABLE IF NOT EXISTS exame_has_atestado(
+exame_id_exame int(15),
+atestado_id_atestado INT(11),
+PRIMARY KEY(exame_id_exame,atestado_id_atestado), -- CHAVE PRIMÁRIA COMPOSTA
+-- CHAVES ESTRANGEIRAS
+CONSTRAINT exame_id3 FOREIGN KEY(exame_id_exame) REFERENCES exames(id_exames),
+CONSTRAINT atestado_id FOREIGN KEY(atestado_id_atestado) REFERENCES atestado(id_atestado)
+);
+
+CREATE TABLE IF NOT EXISTS cargos_has_riscos_ocupacionais(
+cargo_id_cargo int(15),
+risco_ocupacionais_id_risco INT(11),
+PRIMARY KEY(cargo_id_cargo,risco_ocupacionais_id_risco), -- CHAVE PRIMÁRIA COMPOSTA
+-- CHAVES ESTRANGEIRAS
+CONSTRAINT cargo_id2 FOREIGN KEY(cargo_id_cargo) REFERENCES cargo(id_cargo),
+CONSTRAINT risco_id FOREIGN KEY(risco_ocupacionais_id_risco) REFERENCES riscos_ocupacionais(id_riscos)
+);
+ 
  
