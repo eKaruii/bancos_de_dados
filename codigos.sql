@@ -1,5 +1,5 @@
 -- 1. Exibir todas as informações da tabela `PRODUTOS`.
-SELECT * FROM PRODUTOS
+SELECT * FROM PRODUTOS;
 
 -- 2. Mostrar os nomes e preços dos produtos que custam mais de 50,00.
 SELECT NOME_PRO, PRECO_PROD
@@ -7,12 +7,13 @@ FROM PRODUTOS
 where PRECO > 50;
 
 -- 3. Listar os nomes e cidades dos fornecedores.
-SELECT NOME_FOR,CIDADE
+SELECT NOME_FOR, CIDADE
 FROM FORNECEDORES;
 
 -- 4. Exibir os detalhes dos pedidos de compra: ID do pedido, data, hora e nome do fornecedor.
-SELECT ID_PEDIDO, DATA_PEDIDO, HORA_PEDIDO, FORNECEDOR
-FROM PEDIDOS_COMPRA;
+SELECT DISTINCT PC.ID_PEDIDO, GROUP_CONCAT (PC.DATA_PEDIDO, PC.HORA_PEDIDO, F.NOME_FOR
+FROM PEDIDOS_COMPRA AS PC
+JOIN FORNECEDORES AS F ON F.ID_FORNECEDOR = PC.FORNECEDOR;
 
 -- 5. Listar o nome dos produtos e a quantidade disponível em cada armazém.
 SELECT NOME_PRO, ARMAZEM, QUANTIDADE
@@ -41,6 +42,27 @@ FROM PRODUTOS
 JOIN FORNECEDORES ON NOME_FOR;
 
 -- 10. Para cada pedido de compra, mostrar o ID do pedido e a quantidade total de produtos solicitados.
+SELECT ID_PEDIDO, QUANTIDADE
+FROM PEDIDOS_COMPRA;
+
+
+-- 11. Contar quantos produtos cada fornecedor oferece.
+SELECT NOME_FOR, QUANTIDADE
+FROM FORNECEDORES
+JOIN PRODUTOS_ARMAZENS ON QUANTIDADE;
+
+-- 12. Listar os nomes dos produtos e a quantidade disponível no armazém "Rio de Janeiro".
+SELECT P.NOME_PRO, PA.QUANTIDADE
+FROM PRODUTOS P
+JOIN PRODUTOS_ARMAZENS PA ON PA.PRODUTO = P.ID_PRODUTO
+JOIN ARMAZENS A ON PA.ARMAZEM = A.ID_ARMAZEM
+WHERE A.CIDADE_ARMAZEM = "Rio de Janeiro";
+
+-- 13. Mostrar o nome dos fornecedores e a data e hora do último pedido de compra que eles receberam.
+SELECT P.NOME_FOR, DATA_PEDIDO, HORA_PEDIDO
+FROM 
+(SELECT MAX(DATA_PEDIDO) FROM PEDIDOS_COMPRA);
+
 
 
 -- 11. Contar quantos produtos cada fornecedor oferece.
